@@ -1,3 +1,7 @@
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Country {
     private String code;
     private String name;
@@ -45,7 +49,7 @@ public class Country {
         return capital;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -71,5 +75,9 @@ public class Country {
 
     public void setCapital(int capital) {
         this.capital = capital;
+    }
+
+    public static List<Country> mostPopulationCountry(List<Country> countries){
+        return countries.stream().max(Comparator.comparing(Country::getPopulation)).stream().collect(Collectors.toList());
     }
 }
