@@ -1,3 +1,7 @@
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class CityExtend {
     private int id;
     private String cityName;
@@ -71,5 +75,8 @@ public class CityExtend {
 
     public void setIsCapital(boolean isCapital) {
         this.isCapital = isCapital;
+    }
+    public static List<CityExtend> mostPopulationCity(List<CityExtend> cities){
+        return cities.stream().max(Comparator.comparing(CityExtend::getPopulation)).stream().collect(Collectors.toList());
     }
 }

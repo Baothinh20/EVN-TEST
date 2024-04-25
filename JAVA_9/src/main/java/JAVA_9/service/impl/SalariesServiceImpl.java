@@ -41,7 +41,8 @@ public class SalariesServiceImpl implements SalariesService {
     }
 
     @Override
-    public Long getTotalSalary(int month, int year){
-        return salariesRepository.findByFromDate();
+    public List<Salaries> getByDateAll(int month, int year) {
+        return salariesRepository.findByDateAll(month, year);
     }
+
 }

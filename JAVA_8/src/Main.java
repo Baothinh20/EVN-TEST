@@ -32,9 +32,12 @@ public class Main {
             }
             // mot so phong chu bi loi khi doc file
             // Q1 tp va quoc gia
-            System.out.println(City.mostPopulationCity(cities).get(0).getName());
-            System.out.println(Country.mostPopulationCountry(countries).get(0).getName());
+            // System.out.println(City.mostPopulationCity(cities).get(0).getName());
+            List<Country> countriesResult = Country.mostPopulationCountry(countries);
+            System.out.println(countriesResult.get(0).getName());
+
             // Q2
+            // Create better City Info
             List<CityExtend> cityExtendList = new ArrayList<CityExtend>();
             for(City city : cities){
                 for(Country country : countries){
@@ -47,12 +50,29 @@ public class Main {
                     }
                 }
             }
-            Map<String,List<CityExtend>> cityByContinent = new HashMap<String, List<CityExtend>>();
-            cityByContinent = cityExtendList.stream().collect(Collectors.groupingBy(CityExtend::getContinent));
+            Map<String,List<CityExtend>> cityByContinent = mostPopulationCityPerContinent(cityExtendList);
+
             // Q3
+            List<CityExtend> cityExtendListResult1 = cityExtendList
+                    .stream()
+                    .sorted(Comparator.comparing(CityExtend::getPopulation).reversed())
+                    .filter(c -> c.isCapital() == true)
+                    .max(Comparator.comparing(CityExtend::getPopulation)
+                    )
+                    .stream().collect(Collectors.toList());
+
             // Q4
+            Map<String,List<CityExtend>> capitalByContinent = mostPopulationCapitalPerContinent(cityExtendList);
+
             // Q5
+            Map<String,List<CityExtend>> sortContryByCity = sortCityCountryASC(cityExtendList);
+
             // Q6
+            // da chinh sua du lieu country
+            List<Country> countriesResult2 = countries
+                    .stream()
+                    .filter(c -> c.getPopulation() != 0)
+                    .sorted(Comparator.comparing(Country::getPopulationPerSufaceArea).reversed()).collect(Collectors.toList());
 
             brCity.close();
             brCountry.close();
@@ -60,10 +80,46 @@ public class Main {
             e.printStackTrace();
         }
     }
-    public static List<City> mostPopulationCapital(List<City> cities, List<Country> countries){
-        return cities.stream().sorted(Comparator.comparing(City::getPopulation)).collect(Collectors.toList());
+    public static List<CityExtend> sortPopulationCityExtendASC(List<CityExtend> cityExtendList){
+        return cityExtendList.stream().sorted(Comparator.comparing(CityExtend::getContinent)).sorted(Comparator.comparing(CityExtend::getPopulation).reversed()).collect(Collectors.toList());
     }
-//    public static List<CityExtend> mostPopulationPerContinent(List<CityExtend> cityExtendList){
-//        return cityExtendList.stream().sorted(Comparator.comparing(CityExtend::getPopulation)).filter(cityExtend -> cityExtend.getContinent().contains()).collect(Collectors.toList());
-//    }
+
+    public static Map<String,List<CityExtend>> mostPopulationCityPerContinent(List<CityExtend> cityExtendList){
+        cityExtendList = sortPopulationCityExtendASC(cityExtendList);
+        Map<String,List<CityExtend>> cityByContinent = new HashMap<String, List<CityExtend>>();
+        return cityByContinent = cityExtendList.stream()
+                .collect(Collectors.groupingBy(
+                        CityExtend::getContinent, // Group by continent
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                l -> l.stream().limit(1).collect(Collectors.toList())
+                        )
+                ));
+    }
+
+    public static Map<String,List<CityExtend>> mostPopulationCapitalPerContinent(List<CityExtend> cityExtendList){
+        cityExtendList = sortPopulationCityExtendASC(cityExtendList);
+        Map<String,List<CityExtend>> cityByContinent = new HashMap<String, List<CityExtend>>();
+        return cityByContinent = cityExtendList.stream().filter(c -> c.isCapital() == true)
+                .collect(Collectors.groupingBy(
+                        CityExtend::getContinent, // Group by continent
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                l -> l.stream().limit(1).collect(Collectors.toList())
+                        )
+                ));
+    }
+
+    public static Map<String,List<CityExtend>> sortCityCountryASC(List<CityExtend> cityExtendList){
+        cityExtendList = sortPopulationCityExtendASC(cityExtendList);
+        Map<String,List<CityExtend>> cityByContinent = new HashMap<String, List<CityExtend>>();
+        return cityByContinent = cityExtendList.stream()
+                .collect(Collectors.groupingBy(
+                        CityExtend::getCountryCode, // Group by continent
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                l -> l.stream().collect(Collectors.toList())
+                        )
+                ));
+    }
 }

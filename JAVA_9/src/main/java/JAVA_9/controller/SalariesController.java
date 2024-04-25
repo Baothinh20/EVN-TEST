@@ -5,6 +5,7 @@ import JAVA_9.service.SalariesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -21,5 +22,9 @@ public class SalariesController {
     @GetMapping("/getSalariesById/{fromDate}")
     public List<Salaries> getSalariesById(@PathVariable LocalDate fromDate){
         return salariesService.getSalariesById(fromDate);
+    }
+    @GetMapping("/getByDateAll")
+    public List<Salaries> getByDateAll(@RequestParam int month, @RequestParam int year){
+        return salariesService.getByDateAll(month, year);
     }
 }

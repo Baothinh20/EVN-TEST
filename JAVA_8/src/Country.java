@@ -8,6 +8,7 @@ public class Country {
     private String continent;
     private double surfaceArea;
     private int population;
+    private double populationPerSufaceArea;
     private double gnp;
     private int capital;
 
@@ -19,6 +20,7 @@ public class Country {
         this.population = population;
         this.gnp = gnp;
         this.capital = capital;
+        populationPerSufaceArea = population/surfaceArea;
     }
 
     public String getCode() {
@@ -75,6 +77,10 @@ public class Country {
 
     public void setCapital(int capital) {
         this.capital = capital;
+    }
+
+    public double getPopulationPerSufaceArea() {
+        return this.population/this.surfaceArea;;
     }
 
     public static List<Country> mostPopulationCountry(List<Country> countries){

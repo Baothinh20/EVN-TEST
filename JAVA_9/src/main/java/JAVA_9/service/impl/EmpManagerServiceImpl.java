@@ -34,13 +34,13 @@ public class EmpManagerServiceImpl implements EmpManagerService {
                 new TitlesKey(  empTitleSalary.getTitles().getTitlesKey().getTitle(),
                         empTitleSalary.getEmployees().getHireDate())
         );
-        empTitleSalary.getSalaries().setFromDate(empTitleSalary.getEmployees().getHireDate());
+        empTitleSalary.getSalaries().getSalaryKey().setFromDate(empTitleSalary.getEmployees().getHireDate());
         // set tgian lam den TO_DATE_DEFAULT
         empTitleSalary.getTitles().setToDate(TO_DATE_DEFAULT);
         empTitleSalary.getSalaries().setToDate(TO_DATE_DEFAULT);
         // set empid
         empTitleSalary.getTitles().setEmployees(empTitleSalary.getEmployees());
-        empTitleSalary.getSalaries().setEmployees(empTitleSalary.getEmployees());
+        empTitleSalary.getSalaries().getSalaryKey().setEmployees(empTitleSalary.getEmployees());
         // save vao database
         employeesRepository.save(empTitleSalary.getEmployees());
         titlesRepository.save(empTitleSalary.getTitles());

@@ -1,7 +1,9 @@
 package JAVA_9.entity;
 
+import JAVA_9.entity.Key.SalaryKey;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,20 +16,14 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"employees"})
+//@JsonIgnoreProperties({"employees"})
 public class Salaries {
 
-    @ManyToOne
-    @JoinColumn(name = "emp_no")
-    private Employees employees;
+    @EmbeddedId
+    private SalaryKey salaryKey;
 
     @Column(name = "salary")
     private int salary;
-
-    @Id
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "from_date")
-    private LocalDate fromDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "to_date")

@@ -13,5 +13,4 @@ public class EmployeesDTOImpl {
     private Gender gender;
     private LocalDate hireDate;
     private Integer salary;
-    private String title;
 }

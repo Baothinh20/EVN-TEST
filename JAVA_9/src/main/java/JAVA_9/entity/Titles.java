@@ -20,7 +20,6 @@ public class Titles {
 
     @ManyToOne
     @JoinColumn(name = "emp_no")
-    @JsonIgnore
     private Employees employees;
 
     @EmbeddedId

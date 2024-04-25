@@ -1,6 +1,7 @@
 package JAVA_9.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,11 +38,12 @@ public class Employees {
     @Column(name = "hire_date")
     private LocalDate hireDate;
 
-    @OneToMany(cascade = {CascadeType.REMOVE},fetch= FetchType.LAZY, mappedBy = "employees")
+    @OneToMany(cascade = {CascadeType.REMOVE}, fetch= FetchType.LAZY, mappedBy = "employees")
+    // @JsonManagedReference
     @JsonIgnore
-    private Set<Salaries> courses = new HashSet<>();
+    private Set<Salaries> salaries = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.REMOVE},fetch= FetchType.LAZY, mappedBy = "employees")
+    @OneToMany(cascade = {CascadeType.REMOVE}, fetch= FetchType.LAZY, mappedBy = "employees")
     @JsonIgnore
     private Set<Titles> titles = new HashSet<>();
 }

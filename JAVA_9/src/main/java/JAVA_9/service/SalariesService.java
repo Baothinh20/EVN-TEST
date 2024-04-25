@@ -13,6 +13,5 @@ public interface SalariesService {
     public Salaries updateSalary(Salaries salary);
     public void deleteSalary();
     public List<Salaries> getSalariesById(LocalDate fromDate);
-
-    public Long getTotalSalary(int month, int year);
+    public List<Salaries> getByDateAll (int month, int year);
 }
